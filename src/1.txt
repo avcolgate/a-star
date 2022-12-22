@@ -1,0 +1,11 @@
+10
+
+start 1 4
+goal 7 8
+
+wall 1 7
+wall 1 8
+wall 2 7
+wall 2 8
+wall 3 7
+wall 3 8

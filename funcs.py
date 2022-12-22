@@ -25,10 +25,10 @@ def draw_grid(graph, start = (), goal = (), cost = {}, path = {}):
 
 
 class Graph:
-    def __init__(self, width, height):
+    def __init__(self, width, height, wall_list):
         self.width = width
         self.height = height
-        self.walls = []
+        self.walls = wall_list
     
     def in_borders(self, id): # is inside graph
         (x, y) = id
@@ -59,7 +59,7 @@ class PriorityQueue:
         return heapq.heappop(self.elements)[1]
 
 
-def get_path(came_from, start, goal):
+def get_path(came_from, start, goal) -> list:
     current = goal
     path = []
     if goal not in came_from: # no path was found
