@@ -1,63 +1,4 @@
-import heapq
-
-def draw_point(graph, id, start, goal, cost, path):
-    r = " . "
-    if id in cost:
-        r = " %-2d" % cost[id]
-    if id in path:
-        r = " @ "
-    if id == start:
-        r = " A "
-    if id == goal:
-        r = " B "
-    if id in graph.walls:
-        r = "###"
-        
-    return r
-
-def draw_grid(graph, start = (), goal = (), cost = {}, path = {}):
-    print("___" * graph.width)
-    for y in range(graph.height):
-        for x in range(graph.width):
-            print("%s" % draw_point(graph, (x, y), start, goal, cost, path), end="")
-        print()
-    print("___" * graph.width)
-
-
-class Graph:
-    def __init__(self, width, height, wall_list):
-        self.width = width
-        self.height = height
-        self.walls = wall_list
-    
-    def in_borders(self, id): # is inside graph
-        (x, y) = id
-        return 0 <= x < self.width and 0 <= y < self.height
-    
-    def not_wall(self, id): # is not in wall
-        return id not in self.walls
-    
-    def neighbors(self, id): # list of neighbors excluding unavailable ones
-        (x, y) = id
-        neighbors = [(x+1, y), (x-1, y), (x, y-1), (x, y+1)]
-        results = filter(self.in_borders, neighbors)
-        results = filter(self.not_wall, results)
-        return results
-
-
-class PriorityQueue:
-    def __init__(self):
-        self.elements = []
-    
-    def empty(self):
-        return not self.elements
-    
-    def put(self, item, priority): # puts a (priority, id) in queue
-        heapq.heappush(self.elements, (priority, item)) 
-    
-    def get(self): # gets an id of the element 
-        return heapq.heappop(self.elements)[1]
-
+from classes import *
 
 def get_path(came_from, start, goal) -> list:
     current = goal
@@ -77,7 +18,7 @@ def heuristic(a, b):
 
     return abs(x1 - x2) + abs(y1 - y2)
 
-def do_algo(graph, start, goal):
+def a_star(graph, start, goal):
     pQueue = PriorityQueue()
     pQueue.put(start, 0)
     came_from = {}
@@ -100,3 +41,9 @@ def do_algo(graph, start, goal):
                 came_from[next] = current
     
     return came_from, cost
+
+def main(graph, start, goal) -> list:
+    came_from, cost_so_far = a_star(graph, start, goal)
+    path = get_path(came_from, start, goal)
+
+    return path

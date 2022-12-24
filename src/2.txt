@@ -1,4 +1,4 @@
-10
+size 10 10
 
 start 1 4
 goal 7 8
