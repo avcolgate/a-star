@@ -43,7 +43,7 @@ def a_star(graph, start, goal):
     return came_from, cost
 
 def main(graph, start, goal) -> list:
-    came_from, cost_so_far = a_star(graph, start, goal)
+    came_from, cost = a_star(graph, start, goal)
     path = get_path(came_from, start, goal)
 
     return path

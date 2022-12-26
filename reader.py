@@ -3,6 +3,7 @@ from classes import Matrix
 
 def matrix_from_file(filename : str) -> Matrix:
     start = goal = wall = tuple()
+    width = height = 0
     wall_list = list()
 
     with open(file='src/' + filename, mode='rt') as file:
@@ -18,7 +19,7 @@ def matrix_from_file(filename : str) -> Matrix:
                     exit()
                 width, height = x, y
 
-            if 'start' in line:
+            if 'start' in line and width != 0 and height != 0:
                 x, y = line.replace('start', '').split()
                 x, y = int(x), int(y)
                 if x > (width-1) or y > (height-1) or x < 0 or y < 0:
@@ -26,7 +27,7 @@ def matrix_from_file(filename : str) -> Matrix:
                     exit()
                 start = (x, y)
 
-            if 'goal' in line:
+            if 'goal' in line and width != 0 and height != 0:
                 x, y = line.replace('goal', '').split()
                 x, y = int(x), int(y)
                 if x > (width-1) or y > (height-1) or x < 0 or y < 0:
@@ -34,7 +35,7 @@ def matrix_from_file(filename : str) -> Matrix:
                     exit()
                 goal = (x, y)
 
-            if 'wall' in line:
+            if 'wall' in line and width != 0 and height != 0:
                 x, y = line.replace('wall', '').split()
                 x, y = int(x), int(y)
                 if x > (width-1) or y > (height-1) or x < 0 or y < 0:
@@ -43,6 +44,16 @@ def matrix_from_file(filename : str) -> Matrix:
                 wall = (x, y)
                 wall_list.append(wall)
 
-            matrix = Matrix(width=width, height=height, start=start, goal=goal, walls=wall_list)
+        if width == 0 or height == 0:
+            print('fatal: no size values')
+            exit()
+        if not start:
+            print('fatal: no start coords')
+            exit()
+        if not goal:
+            print('fatal: no goal coords')
+            exit()
 
+        matrix = Matrix(width=width, height=height, start=start, goal=goal, walls=wall_list)
+        
     return matrix
