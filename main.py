@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 from reader import matrix_from_file
 from funcs import Graph, main, dict_from_list
+from typing import List
 import sys
 
 
@@ -17,10 +18,10 @@ else:
 matrix = matrix_from_file(filename=file)
 my_graph = Graph(matrix.width, matrix.height, matrix.walls)
 
-grid_coords = list()
-main_coords = list()
-wall_coords = list()
-path_coords = list()
+grid_coords: List[tuple] = list()
+main_coords: List[tuple] = list()
+wall_coords: List[tuple] = list()
+path_coords: List[tuple] = list()
 
 grid_dict = dict()
 main_dict = dict()
@@ -57,8 +58,8 @@ nx.draw_networkx_nodes(my_graph, path_coords, nodelist=path_dict, node_color="or
 labels = {0: 'start', 1: 'goal'}
 nx.draw_networkx_nodes(my_graph, main_coords,
                        nodelist=[0], node_color="tab:green", node_shape='o', node_size=node_size * 2, alpha=0.9)
-nx.draw_networkx_nodes(my_graph, main_coords, nodelist=[1], node_color="tab:red", node_shape='o',
-                       node_size=node_size * 2, alpha=0.9)
+nx.draw_networkx_nodes(my_graph, main_coords,
+                       nodelist=[1], node_color="tab:red", node_shape='o', node_size=node_size * 2, alpha=0.9)
 
 nx.draw_networkx_labels(my_graph, main_coords, labels, font_size=16, font_color="whitesmoke", font_family="sans-serif")
 
