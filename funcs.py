@@ -1,6 +1,7 @@
 from classes import *
+from typing import List
 
-def get_path(came_from, start, goal) -> list:
+def get_path(came_from : dict, start : tuple, goal : tuple) -> List[tuple]:
     current = goal
     path = []
     if goal not in came_from: # no path was found
@@ -12,13 +13,12 @@ def get_path(came_from, start, goal) -> list:
     path.reverse()
     return path
 
-def heuristic(a, b):
+def heuristic(a : tuple, b : tuple) -> int:
     (x1, y1) = a
     (x2, y2) = b
-
     return abs(x1 - x2) + abs(y1 - y2)
 
-def a_star(graph, start, goal):
+def a_star(graph : Graph, start : tuple, goal : tuple) -> List[dict]:
     pQueue = PriorityQueue()
     pQueue.put(start, 0)
     came_from = {}
@@ -42,8 +42,16 @@ def a_star(graph, start, goal):
     
     return came_from, cost
 
-def main(graph, start, goal) -> list:
+def main(graph : Graph, start : tuple, goal : tuple) -> List[tuple]:
     came_from, cost = a_star(graph, start, goal)
     path = get_path(came_from, start, goal)
 
     return path
+
+
+def dict_from_list(coord_list : List[tuple]) -> dict:
+    coord_dict = dict()
+    for num, item in enumerate(coord_list):
+        coord_dict[num] = item
+
+    return coord_dict

@@ -1,14 +1,15 @@
 import matplotlib.pyplot as plt
 import networkx as nx
 from reader import matrix_from_file
-from funcs import Graph, main
+from funcs import Graph, main, dict_from_list
+
 
 file = str(input('Enter name of file: '))
 
 matrix = matrix_from_file(filename=file)
 my_graph = Graph(matrix.width, matrix.height, matrix.walls)
 
-all_coords = list()
+grid_coords = list()
 main_coords = list()
 wall_coords = list()
 path_coords = list()
@@ -20,19 +21,15 @@ path_dict = dict()
 
 for i in range(0, matrix.width):
     for j in range(0, matrix.height):
-        all_coords.append((i, j))
+        grid_coords.append((i, j))
 main_coords = [matrix.start, matrix.goal]
 wall_coords = matrix.walls
 path_coords = main(my_graph, matrix.start, matrix.goal)
 
-for num, cord in enumerate(all_coords):
-    grid_dict[num] = cord
-for num, cord in enumerate(path_coords):
-    path_dict[num] = cord
-for num, cord in enumerate(main_coords):
-    main_dict[num] = cord
-for num, cord in enumerate(wall_coords):
-    wall_dict[num] = cord
+grid_dict = dict_from_list(grid_coords)
+path_dict = dict_from_list(path_coords)
+main_dict = dict_from_list(main_coords)
+wall_dict = dict_from_list(wall_coords)
 
 # print(all_coords)
 # print(main_coords)
@@ -42,7 +39,7 @@ for num, cord in enumerate(wall_coords):
 node_size = 1000
 fig = plt.figure(figsize =([matrix.width*node_size/2150, matrix.height*node_size/2150]) )
 
-nx.draw_networkx_nodes(my_graph, all_coords, nodelist=grid_dict, node_color="tab:gray", node_shape='s', node_size=node_size, alpha=0.1)
+nx.draw_networkx_nodes(my_graph, grid_coords, nodelist=grid_dict, node_color="tab:gray", node_shape='s', node_size=node_size, alpha=0.1)
 nx.draw_networkx_nodes(my_graph, wall_coords, nodelist=wall_dict, node_color="black", node_shape='s', node_size=node_size, alpha=0.9)
 nx.draw_networkx_nodes(my_graph, path_coords, nodelist=path_dict, node_color="orange", node_shape='s', node_size=node_size, alpha=0.7)
 
