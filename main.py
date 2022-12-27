@@ -2,8 +2,17 @@ import matplotlib.pyplot as plt
 import networkx as nx
 from reader import matrix_from_file
 from funcs import Graph, main, dict_from_list
+import sys
 
-file = str(input('Enter name of file: '))
+
+SHOW_COORDS = False
+
+# file = str(input('Enter name of file: '))
+if len(sys.argv) > 1:
+    file = sys.argv[1]
+else:
+    print('fatal: no input file')
+    exit()
 
 matrix = matrix_from_file(filename=file)
 my_graph = Graph(matrix.width, matrix.height, matrix.walls)
@@ -36,7 +45,7 @@ wall_dict = dict_from_list(wall_coords)
 # print(wall_coords)
 
 node_size = 1000
-fig = plt.figure(figsize=([matrix.width * node_size / 2150, matrix.height * node_size / 2150]))
+fig = plt.figure("A-star " + file, figsize=([matrix.width * node_size / 2150, matrix.height * node_size / 2150]))
 
 nx.draw_networkx_nodes(my_graph, grid_coords, nodelist=grid_dict, node_color="tab:gray", node_shape='s',
                        node_size=node_size, alpha=0.1)
@@ -52,6 +61,9 @@ nx.draw_networkx_nodes(my_graph, main_coords, nodelist=[1], node_color="tab:red"
                        node_size=node_size * 2, alpha=0.9)
 
 nx.draw_networkx_labels(my_graph, main_coords, labels, font_size=16, font_color="whitesmoke", font_family="sans-serif")
+
+if SHOW_COORDS:
+    nx.draw_networkx_labels(my_graph, grid_coords, grid_dict, font_size=6, font_color="whitesmoke", font_family="sans-serif", alpha=0.7)
 
 plt.tight_layout()
 plt.axis("off")

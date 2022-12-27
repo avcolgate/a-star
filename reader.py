@@ -6,7 +6,7 @@ def matrix_from_file(filename: str) -> Matrix:
     width = height = -1
     wall_list = list()
 
-    with open(file='src/{0}'.format(filename), mode='rt') as file:
+    with open(file='{0}'.format(filename), mode='rt') as file:
         lines = file.read().split('\n')
         file.close()
 

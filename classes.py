@@ -25,7 +25,7 @@ class Graph:
     def not_wall(self, id: tuple) -> bool:  # is not in wall
         return id not in self.walls
 
-    def neighbors(self, id: tuple) -> filter[tuple]:  # list of neighbors excluding unavailable ones
+    def neighbors(self, id: tuple) -> List[tuple]:  # list of neighbors excluding unavailable ones
         (x, y) = id
         neighbors = [(x + 1, y), (x - 1, y), (x, y - 1), (x, y + 1)]
         results = filter(self.in_borders, neighbors)

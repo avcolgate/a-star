@@ -1,3 +1,4 @@
 size 30 30
+
 start 1 1
-goal 10 10 
+goal 29 29 
