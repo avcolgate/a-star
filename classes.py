@@ -2,12 +2,18 @@ import heapq
 from typing import List
 
 
+class Point:
+    def __init__(self, name: str, x: int, y: int) -> None:
+        self.name = name
+        self.coords = (x, y)
+
+
 class Matrix:
-    def __init__(self, width: int, height: int, start: tuple, goal: tuple, walls: List[tuple]) -> None:
+    def __init__(self, width: int, height: int, sources: List[Point], targets: List[Point], walls: List[tuple]) -> None:
         self.width = width
         self.height = height
-        self.start = start
-        self.goal = goal
+        self.sources = sources
+        self.targets = targets
         self.walls = walls
         self.path = list()
 

@@ -1,39 +1,51 @@
-from classes import Matrix
+from classes import Matrix, Point
 
 
 def matrix_from_file(filename: str) -> Matrix:
-    start = goal = wall = tuple()
-    width = height = -1
+    source_list = list()
+    target_list = list()
     wall_list = list()
+    wall = tuple()
+    width = height = -1
 
     with open(file='{0}'.format(filename), mode='rt') as file:
         lines = file.read().split('\n')
         file.close()
 
         for line_num, line in enumerate(lines):
-            if 'size' in line:
-                x, y = line.replace('size', '').split()
-                x, y = int(x), int(y)
-                if x <= 0 or y <= 0:
-                    print('fatal: incorrect size values (line {})'.format(line_num + 1))
+            if 'WIDTH' in line:
+                width = int(line.replace('WIDTH', '').strip())
+                if width <= 0:
+                    print('fatal: incorrect width value (line {})'.format(line_num + 1))
                     exit()
-                width, height = x, y
-            if 'start' in line and width != 0 and height != 0:
-                x, y = line.replace('start', '').split()
-                x, y = int(x), int(y)
-                if x > (width - 1) or y > (height - 1) or x < 0 or y < 0:
-                    print('fatal: incorrect start coordinates (line {})'.format(line_num + 1))
+            if 'HEIGHT' in line:
+                height = int(line.replace('HEIGHT', '').strip())
+                if height <= 0:
+                    print('fatal: incorrect HEIGHT value (line {})'.format(line_num + 1))
                     exit()
-                start = (x, y)
-            if 'goal' in line and width != 0 and height != 0:
-                x, y = line.replace('goal', '').split()
+
+            if 'SOURCE' in line and width != 0 and height != 0:
+                name, x, y = line.replace('SOURCE', '').split()
+                name = str(name)
                 x, y = int(x), int(y)
                 if x > (width - 1) or y > (height - 1) or x < 0 or y < 0:
-                    print('fatal: incorrect goal coordinates (line {})'.format(line_num + 1))
+                    print('fatal: incorrect SOURCE coordinates (line {})'.format(line_num + 1))
                     exit()
-                goal = (x, y)
-            if 'wall' in line and width != 0 and height != 0:
-                x, y = line.replace('wall', '').split()
+                source = Point(name=name, x=x, y=y)
+                source_list.append(source)
+
+            if 'TARGET' in line and width != 0 and height != 0:
+                name, x, y = line.replace('TARGET', '').split()
+                name = str(name)
+                x, y = int(x), int(y)
+                if x > (width - 1) or y > (height - 1) or x < 0 or y < 0:
+                    print('fatal: incorrect TARGET coordinates (line {})'.format(line_num + 1))
+                    exit()
+                target = Point(name=name, x=x, y=y)
+                target_list.append(target)
+
+            if 'WALL' in line and width != 0 and height != 0:
+                x, y = line.replace('WALL', '').split()
                 x, y = int(x), int(y)
                 if x > (width - 1) or y > (height - 1) or x < 0 or y < 0:
                     print('fatal: incorrect wall coordinates (line {})'.format(line_num + 1))
@@ -44,13 +56,16 @@ def matrix_from_file(filename: str) -> Matrix:
         if width == -1 or height == -1:
             print('fatal: no size values')
             exit()
-        if not start:
-            print('fatal: no start coords')
+        if not source_list:
+            print('fatal: no sources')
             exit()
-        if not goal:
-            print('fatal: no goal coords')
+        if not target_list:
+            print('fatal: no targets')
+            exit()
+        if len(target_list) != len(source_list):
+            print('fatal: number of sources is not equal number of targets')
             exit()
 
-        matrix = Matrix(width=width, height=height, start=start, goal=goal, walls=wall_list)
+        matrix = Matrix(width=width, height=height, sources=source_list, targets=target_list, walls=wall_list)
 
     return matrix

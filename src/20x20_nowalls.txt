@@ -1,4 +1,0 @@
-size 20 20
-
-start 1 1
-goal 19 19

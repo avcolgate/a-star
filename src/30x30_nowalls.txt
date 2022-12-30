@@ -1,4 +1,6 @@
-size 30 30
+WIDTH 30
+HEIGHT 30
 
-start 1 1
-goal 29 29 
+SOURCE S1 1 1
+
+TARGET T1 29 29
